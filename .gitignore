@@ -1,0 +1,10 @@
+.idea
+
+# CosmWasm and rust related
+/Cargo.lock
+*.wasm
+target/
+artifacts/
+
+# Other
+.DS_Store
