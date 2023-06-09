@@ -6,10 +6,17 @@ repository = { workspace = true }
 
 [dependencies]
 cosmwasm-schema = { workspace = true }
-cosmwasm-std = { workspace = true }
+cosmwasm-std = { workspace = true, features = ["staking"] }
 cw-storage-plus = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 thiserror = { workspace = true }
+neutron-sdk = { git = "https://github.com/neutron-org/neutron-sdk", default-features = false, version = "0.5.0" }
+serde-json-wasm = { version = "0.4.1" }
+cosmos-sdk-proto = { version = "0.12.2", default-features = false }
+cw-utils = "1.0.1"
+protobuf = { version = "3", features = ["with-bytes"] }
+cw721 = "0.16"
+cw721-base = { version = "0.16", features = ["library"] }
 
 [dev-dependencies]
 cw-multi-test = { workspace = true }
