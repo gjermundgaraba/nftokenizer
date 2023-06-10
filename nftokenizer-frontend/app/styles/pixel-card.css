@@ -1,0 +1,85 @@
+.main {
+  width: 100%;
+  /* margin: auto; */
+  display: flex;
+  flex-direction: column;
+  max-width: 1170px;
+}
+
+.pixel-corner {
+  width: 14px;
+  height: 13px;
+  position: relative;
+  z-index: 1;
+  background-color: black;
+}
+
+.pixel-corner.upper-left {
+  box-shadow: -12px 13px 0 0 black, -24px 26px 0 0 black;
+}
+
+.pixel-corner.upper-right {
+  box-shadow: 14px 13px 0 0 black, 27px 26px 0 0 black;
+}
+
+.pixel-corner.lower-left {
+  box-shadow: -12px -12px 0 0 black, -24px -25px 0 0 black;
+}
+
+.pixel-corner.lower-right {
+  box-shadow: 14px -12px 0 0 black, 27px -24px 0 0 black;
+}
+
+.pixel-horizontal-line {
+  width: 100%;
+  height: 13px;
+  background-color: black;
+  position: relative;
+  z-index: 0;
+}
+
+.inner-container-wrapper {
+  display: flex;
+  height: 100%;
+  margin-left: -10px;
+  width: calc(100% + 24px);
+}
+
+.green-border {
+  border: 13px solid #ccf473;
+}
+
+.inner-container {
+  background-color: #fff;
+  width: 100%;
+}
+
+.pixel-vertical-line {
+  min-width: 14px;
+  position: relative;
+  margin-top: 26px;
+  background-color: #000000;
+}
+
+.pixel-vertical-line.left-side {
+  margin-right: 10px;
+}
+
+.pixel-vertical-line.right-side {
+  margin-left: 13px;
+  margin-top: 26px;
+}
+
+.card-inside-container {
+  flex: 1;
+}
+
+.card-wrapper {
+  height: max-content;
+  width: 100%;
+  justify-content: center;
+}
+
+.cero-cero {
+  background-color: red;
+}

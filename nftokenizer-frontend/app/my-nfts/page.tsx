@@ -1,5 +1,5 @@
 export default function WalletConnected() {
   return (
-    <div><h1>Wallet connected</h1></div>
+    <div><h1>MY NFTS</h1></div>
   )
 }
