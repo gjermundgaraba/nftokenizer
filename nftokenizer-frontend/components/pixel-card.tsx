@@ -1,35 +1,18 @@
+import { ReactNode } from "react";
+import PixelBaseCard from "./pixel-base-card";
 
-export default function PixelCard({ children, greenBorder }) {
+export function PixelGreenBorderCard({ children }: { children: ReactNode }) {
   return (
-    <main className="main">
-      <div className="flex card-wrapper">
-        <div className="pixel-vertical-line left-side"></div>
-        <div className="card-inside-container">
-          <PixelBorder position="top" />
-          <PixelInner greenBorder={greenBorder}>{children}</PixelInner>
-          <PixelBorder position="bottom" />
-        </div>
-        <div className="pixel-vertical-line right-side"></div>
-      </div>
-
-    </main >
+    <PixelBaseCard button={false} border={true} borderColor={'#CCF473'} cardSize="big" innerPadding="80px 56px" backgroundColor="#F5F5F5">
+      {children}
+    </PixelBaseCard>
   )
 }
 
-export function PixelBorder({ position }: { position: string }) {
+export function PixelDropdown({ children }: { children: ReactNode }) {
   return (
-    <div className="flex">
-      <div className={`pixel-corner ${position === 'top' ? "upper-left" : "lower-left"}`}></div>
-      <div className="pixel-horizontal-line"></div>
-      <div className={`pixel-corner ${position === 'top' ? "upper-right" : "lower-right"}`}></div>
-    </div>
-  )
-}
-
-export function PixelInner({ children, greenBorder }) {
-  return (
-    <div className={`inner-container-wrapper ${greenBorder && "green-border"}`} >
-      <div className="inner-container py-20 px-14 break-word">{children}</div>
-    </div>
+    <PixelBaseCard button={false} border={false} cardSize="small" innerPadding="12px" backgroundColor="#949494">
+      {children}
+    </PixelBaseCard >
   )
 }

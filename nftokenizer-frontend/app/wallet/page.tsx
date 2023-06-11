@@ -1,23 +1,18 @@
-import PixelButton from "../../components/pixel-button";
-import PixelCard from "../../components/pixel-card";
+import { PixelActionButton } from "../../components/pixel-button";
+import { PixelGreenBorderCard } from "../../components/pixel-card";
+import { WalletAsset } from "../../models/wallet-asset";
 
 export default function WalletConnected() {
-  const walletAssets = [
+  const walletAssets: WalletAsset[] = [
     { assetId: 1, currency: '$MPWR', assetPrice: 250 },
     { assetId: 2, currency: '$MPWR', assetPrice: 280 },
     { assetId: 3, currency: '$MPWR', assetPrice: 400 }
-
   ];
 
   return (
     <div style={{ width: 770 }}>
-      <PixelCard greenBorder={true}>
-        <div className="flex justify-between">
-          <p className="font-bold text" >
-            Your wallet connected
-          </p>
-          <p className="font-bold text logout">LOGOUT</p>
-        </div>
+      <PixelGreenBorderCard>
+        <WalletConnectedHeader />
         <div className="mt-12">
           {walletAssets.map((walletAsset) => {
             return (
@@ -29,12 +24,25 @@ export default function WalletConnected() {
                   </div>
                 </div>
                 <div className="inter-text asset-currency price">{walletAsset.assetPrice}</div>
-                <div className="mb-1.5"><PixelButton actionButton={true} routeButton={false}>Make NFT</PixelButton></div>
+                <div className="mb-1.5">
+                  <PixelActionButton >Make NFT</PixelActionButton>
+                </div>
               </div>
             )
           })}
         </div>
-      </PixelCard>
+      </PixelGreenBorderCard>
+    </div>
+  )
+}
+
+export function WalletConnectedHeader() {
+  return (
+    <div className="flex justify-between">
+      <p className="font-bold text" >
+        Your wallet connected
+      </p>
+      <p className="font-bold text logout">LOGOUT</p>
     </div>
   )
 }

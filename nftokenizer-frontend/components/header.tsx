@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import PixelButton from './pixel-button';
+import { PixelRouteButton } from './pixel-button';
 
 export default function Header() {
   const route = usePathname();
@@ -18,17 +18,21 @@ export default function Header() {
 
   return (
     <div className='flex flex-col' style={{ paddingTop: '20px', paddingBottom: '50px' }}>
-      {route === '/my-nfts' && <div className='mr-auto flex'>
-        <Link href='/wallet'>
-          <PixelButton actionButton={false} routeButton={true}>Home</PixelButton>
-        </Link>
-      </div>}
+      {route === '/my-nfts' && (
+        <div className='mr-auto flex mb-5'>
+          <Link href='/wallet'>
+            <PixelRouteButton>Home</PixelRouteButton>
+          </Link>
+        </div>
+      )}
 
-      {route === '/wallet' && <div className='ml-auto flex'>
-        <Link href="/my-nfts">
-          <PixelButton actionButton={false} routeButton={true}>My NFTs</PixelButton>
-        </Link>
-      </div>}
+      {route === '/wallet' && (
+        <div className='ml-auto flex mb-5'>
+          <Link href="/my-nfts">
+            <PixelRouteButton>My NFTs</PixelRouteButton>
+          </Link>
+        </div>
+      )}
       <div className='flex flex-col items-center'>
         <Image
           src="images/nftokenizer-logo.svg"
