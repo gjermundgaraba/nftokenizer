@@ -4,6 +4,7 @@ use cw_storage_plus::{Item, Map};
 
 #[cw_serde]
 pub struct NftSlot {
+    pub creator: Addr,
     pub connection_id: String,
     pub ica_port_id: String,
     pub ica_address: Option<Addr>,
