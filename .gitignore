@@ -6,5 +6,7 @@
 target/
 artifacts/
 
+node_modules/
+
 # Other
 .DS_Store

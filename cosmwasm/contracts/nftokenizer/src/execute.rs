@@ -25,6 +25,7 @@ pub fn create_slot(deps: DepsMut, env: Env, info: MessageInfo, connection_id: St
         connection_id: connection_id.clone(),
         ica_port_id: ica_port_id.clone(),
         ica_address: None,
+        minted: false,
     };
 
     // Add an incomplete entry for the new account to the storage.
@@ -41,10 +42,11 @@ pub fn create_slot(deps: DepsMut, env: Env, info: MessageInfo, connection_id: St
     )
 }
 
-pub fn mint_nft_from_slot(deps: DepsMut, info: MessageInfo, nft_slot_id: u64) -> Result<Response<NeutronMsg>, ContractError> {
+pub fn mint_nft_from_slot(deps: DepsMut, info: MessageInfo, nft_slot_id: String) -> Result<Response<NeutronMsg>, ContractError> {
     let cw721_contract_address = CW721_CONTRACT_ADDRESS.load(deps.storage).unwrap();
+    let nft_slot_id_as_u64 = nft_slot_id.parse::<u64>().unwrap();
 
-    let nft_slot = NFT_SLOTS.load(deps.storage, nft_slot_id).unwrap();
+    let mut nft_slot = NFT_SLOTS.load(deps.storage, nft_slot_id_as_u64).unwrap();
     if nft_slot.creator != info.sender {
         return Err(ContractError::Unauthorized {});
     }
@@ -64,6 +66,10 @@ pub fn mint_nft_from_slot(deps: DepsMut, info: MessageInfo, nft_slot_id: u64) ->
         msg: to_binary(&mint_msg)?,
         funds: vec![],
     };
+
+    // Update nft slot to reflect that it has been minted (mostly used for querying right now)
+    nft_slot.minted = true;
+    NFT_SLOTS.save(deps.storage, nft_slot_id_as_u64, &nft_slot)?;
 
     Ok(Response::new()
         .add_message(mint_wasm_msg)

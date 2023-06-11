@@ -8,6 +8,7 @@ pub struct NftSlot {
     pub connection_id: String,
     pub ica_port_id: String,
     pub ica_address: Option<Addr>,
+    pub minted: bool,
 }
 
 pub const CW721_CONTRACT_ADDRESS: Item<Addr> = Item::new("cw721_contract_address");
