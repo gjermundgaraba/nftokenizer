@@ -1,5 +1,5 @@
 use cosmwasm_schema::cw_serde;
-use cosmwasm_std::{DepsMut, entry_point, Env, Response, StdError, StdResult};
+use cosmwasm_std::{Addr, DepsMut, entry_point, Env, Response, StdError, StdResult};
 use neutron_sdk::sudo::msg::SudoMsg;
 use crate::state::{ICA_PORT_ID_TO_NFT_SLOT_ID, NFT_SLOTS};
 
@@ -54,7 +54,7 @@ fn sudo_open_ack(
             nft_id,
             |existing_slot| -> StdResult<_> {
                 let mut slot = existing_slot.unwrap();
-                let address = deps.api.addr_validate(&parsed_version.address)?;
+                let address = Addr::unchecked(parsed_version.address);
                 slot.ica_address = Option::from(address);
                 Ok(slot)
             },

@@ -9,14 +9,14 @@ use crate::state::{CW721_CONTRACT_ADDRESS, ICA_PORT_ID_TO_NFT_SLOT_ID, NEXT_TOKE
 pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> Result<Response<NeutronMsg>, ContractError> {
     match msg {
         ExecuteMsg::CreateSlot { connection_id } => create_slot(deps, env, connection_id),
-        ExecuteMsg::MintNFTFromSlot { nft_slot_id } => mint_nft_from_slot(deps, info, nft_slot_id),
+        ExecuteMsg::MintNftFromSlot { nft_slot_id } => mint_nft_from_slot(deps, info, nft_slot_id),
     }
 }
 
 pub fn create_slot(deps: DepsMut, env: Env, connection_id: String) -> Result<Response<NeutronMsg>, ContractError> {
     let nft_slot_id = NEXT_TOKEN_ID.load(deps.storage).unwrap();
 
-    let interchain_account_id = format!("{}-{}", env.contract.address.to_string(), nft_slot_id);
+    let interchain_account_id = format!("nftokenizer-ica-{}", nft_slot_id);
     let register_ica_msg = NeutronMsg::register_interchain_account(connection_id.clone(), interchain_account_id.clone());
     let ica_port_id = get_port_id(env.contract.address.as_str(), &interchain_account_id);
 
