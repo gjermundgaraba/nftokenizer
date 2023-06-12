@@ -17,6 +17,7 @@ cw-utils = "1.0.1"
 protobuf = { version = "3", features = ["with-bytes"] }
 cw721 = "0.16"
 cw721-base = { version = "0.16", features = ["library"] }
+cw2 = { version = "1.0.1" }
 
 [dev-dependencies]
 cw-multi-test = { workspace = true }

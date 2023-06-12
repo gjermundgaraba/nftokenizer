@@ -1,4 +1,5 @@
 use cosmwasm_std::{DepsMut, Empty, entry_point, Env, MessageInfo, Response, SubMsg, to_binary, WasmMsg};
+use cw2::set_contract_version;
 
 use crate::error::ContractError;
 use crate::msg::InstantiateMsg;
@@ -13,6 +14,9 @@ pub mod state;
 pub mod reply;
 pub mod sudo;
 
+const CONTRACT_NAME: &str = env!("CARGO_PKG_NAME");
+const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
+
 #[entry_point]
 pub fn instantiate(
     deps: DepsMut,
@@ -20,6 +24,8 @@ pub fn instantiate(
     _info: MessageInfo,
     msg: InstantiateMsg,
 ) -> Result<Response, ContractError> {
+    set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
+
     let cw721_init_msg = SubMsg::<Empty>::reply_on_success(
         WasmMsg::Instantiate {
             admin: None,
@@ -37,7 +43,14 @@ pub fn instantiate(
 
     NEXT_TOKEN_ID.save(deps.storage, &1).unwrap();
 
+
     Ok(Response::new().add_submessage(cw721_init_msg))
+}
+
+#[entry_point]
+pub fn migrate(_deps: DepsMut, _env: Env, _msg: Empty) -> Result<Response, ContractError> {
+    // No state migrations performed, just returned a Response
+    Ok(Response::default())
 }
 
 #[cfg(test)]
