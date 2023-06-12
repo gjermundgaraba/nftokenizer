@@ -2,12 +2,27 @@
 import Image from "next/image";
 import PixelBaseCard from "../components/pixel-base-card";
 import {PixelGreenBorderCard} from "../components/pixel-card";
-import {MouseEventHandler} from "react";
+import {MouseEventHandler, useEffect} from "react";
 import {useChainContext} from "../chain-stuff/chain-context";
+import {createNftSlot, getTokenizedNfts} from "../chain-stuff/chain-service";
 
 
 export default function Home() {
   const chainContext = useChainContext();
+
+  useEffect(() => {
+    if (chainContext.connected) {
+      getTokenizedNfts(chainContext.address).catch((e) => {
+        console.log(e);
+      });
+
+      createNftSlot(chainContext.address, chainContext.signer!).then((res) => {
+        console.log("createNftSlot res", res);
+      }).catch((e) => {
+        console.log(e);
+      });
+    }
+  });
 
   const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();
