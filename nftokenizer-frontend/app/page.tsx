@@ -1,14 +1,15 @@
 'use client';
 import Image from "next/image";
-import PixelBaseCard from "../components/pixel-base-card";
-import {PixelGreenBorderCard} from "../components/pixel-card";
-import {MouseEventHandler, useEffect} from "react";
-import {useChainContext} from "../chain-stuff/chain-context";
-import {createNftSlot, getTokenizedNfts} from "../chain-stuff/chain-service";
+import { useRouter } from "next/navigation";
+import { MouseEventHandler, useEffect } from "react";
+import { useChainContext } from "../chain-stuff/chain-context";
+import { createNftSlot, getTokenizedNfts } from "../chain-stuff/chain-service";
+import { PixelGreenBorderCard } from "../components/pixel-card";
 
 
 export default function Home() {
   const chainContext = useChainContext();
+  const router = useRouter()
 
   useEffect(() => {
     if (chainContext.connected) {
@@ -34,20 +35,23 @@ export default function Home() {
     await chainContext.connectWallet();
     console.log("address after connect", chainContext.address);
     console.log(chainContext.connected);
+    router.push('/wallet')
     // TODO: We are connected, so can go to next screen
   };
 
   return (
     <div>
-      <div style={{ marginBottom: 30 }} onClick={onClickConnect}>
-        <PixelGreenBorderCard>
-          <Image src="images/wallet-icon.svg"
-            alt="wallet"
-            width={130}
-            height={130}
-            priority className="m-auto" />
-          <p className="font-bold text-5xl text-center mt-8">Connect Wallet</p>
-        </PixelGreenBorderCard>
+      <div style={{ marginBottom: 30 }} >
+        <button onClick={onClickConnect}>
+          <PixelGreenBorderCard>
+            <Image src="images/wallet-icon.svg"
+              alt="wallet"
+              width={130}
+              height={130}
+              priority className="m-auto" />
+            <p className="font-bold text-5xl text-center mt-8">Connect Wallet</p>
+          </PixelGreenBorderCard>
+        </button>
         <div className="mt-20">
           Example, remove later<br />
           {chainContext.connected ? (
@@ -58,16 +62,7 @@ export default function Home() {
             </>
           ) : "not connected"}
         </div>
-        <div className="mt-20">
-          <PixelBaseCard button={true}
-            border={true}
-            borderColor={'red'}
-            cardSize={'medium'}
-            actionButton={false}
-            routeButton={true}>
-            boo
-          </PixelBaseCard>
-        </div>
+
       </div>
     </div>
   )

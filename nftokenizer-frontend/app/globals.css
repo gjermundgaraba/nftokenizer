@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "styles/pixel-card.css";
+/* @import "styles/pixel-card.css"; */
+/* @import "styles/pixel-modal.css"; */
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -26,7 +27,6 @@ body {
 body {
   color: rgb(var(--foreground-rgb));
   height: 100vh;
-  /* background: rgb(var(--background-rgb)); */
   background: url(../public/images/bg-1.svg) no-repeat center center fixed;
   background-size: cover;
   filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../public/images/bg-1.svg', sizingMethod='scale');

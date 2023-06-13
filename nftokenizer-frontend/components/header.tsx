@@ -18,21 +18,23 @@ export default function Header() {
 
   return (
     <div className='flex flex-col' style={{ paddingTop: '20px', paddingBottom: '50px' }}>
-      {route === '/my-nfts' && (
-        <div className='mr-auto flex mb-5'>
-          <Link href='/wallet'>
-            <PixelRouteButton>Home</PixelRouteButton>
-          </Link>
-        </div>
-      )}
+      <div className='flex'>
+        {(route === '/my-nfts' || route === '/add-assets') && (
+          <div className='mr-auto flex mb-5'>
+            <Link href='/wallet'>
+              <PixelRouteButton>Home</PixelRouteButton>
+            </Link>
+          </div>
+        )}
 
-      {route === '/wallet' && (
-        <div className='ml-auto flex mb-5'>
-          <Link href="/my-nfts">
-            <PixelRouteButton>My NFTs</PixelRouteButton>
-          </Link>
-        </div>
-      )}
+        {(route === '/wallet' || route === '/add-assets') && (
+          <div className='ml-auto flex mb-5'>
+            <Link href="/my-nfts">
+              <PixelRouteButton>My NFTs</PixelRouteButton>
+            </Link>
+          </div>
+        )}
+      </div>
       <div className='flex flex-col items-center'>
         <Image
           src="images/nftokenizer-logo.svg"

@@ -28,3 +28,40 @@ export function PixelActionButton({ children }: { children: ReactNode }) {
     </PixelBaseCard>
   )
 }
+
+export function PixelConfirmModalButton({ children }: { children: ReactNode }) {
+  return (
+    <PixelBaseCard
+      cardSize={'medium'}
+      border={false}
+      button={true}
+      backgroundColor={'#6E7889'}>
+      {children}
+    </PixelBaseCard>
+  )
+}
+
+export function PixelMintButton({ children }: { children: ReactNode }) {
+  return (
+    <PixelBaseCard
+      border={true}
+      button={true}
+      borderColor={"#ff7e36"}
+      cardSize={"medium"}
+      backgroundColor={"#FF5C00"}>
+      {children}
+    </PixelBaseCard>
+  )
+}
+
+export function PixelMintCompletedButton({ children }: { children: ReactNode }) {
+  return (
+    <PixelBaseCard
+      border={false}
+      button={true}
+      cardSize={"medium"}
+      backgroundColor={"#fff"}>
+      {children}
+    </PixelBaseCard>
+  )
+}

@@ -1,4 +1,6 @@
 import { ReactNode } from "react";
+import "../app/styles/pixel-card.css";
+
 
 interface PixelBaseCardProps {
   children: ReactNode;
@@ -22,6 +24,7 @@ export default function PixelBaseCard(props: PixelBaseCardProps) {
   return (
     <main className="main">
       <div className={`
+        pixel-card
         flex 
         ${actionButton && "action-button"} 
         ${routeButton && "route-button"}
@@ -63,10 +66,13 @@ export default function PixelBaseCard(props: PixelBaseCardProps) {
 
 export function PixelBorder({ position }: { position: string }) {
   return (
-    <div className="flex">
+    <div className="flex relative">
       <div className={`pixel-corner ${position === 'top' ? "upper-left" : "lower-left"}`}></div>
       <div className="pixel-horizontal-line"></div>
-      <div className={`pixel-corner ${position === 'top' ? "upper-right" : "lower-right"}`}></div>
+      <div className="relative">
+        <div className={`pixel-corner ${position === 'top' ? "upper-right" : "lower-right"}`}></div>
+      </div>
+
     </div>
   )
 }

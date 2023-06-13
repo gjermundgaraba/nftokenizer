@@ -1,0 +1,65 @@
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.89);
+  z-index: 10;
+}
+
+.modal-container {
+  position: relative;
+  max-width: 744px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.modal-inner {
+  background-color: white;
+}
+
+.modal-title {
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 20px;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 12px;
+
+  color: #ea0000;
+  margin-top: 69px;
+}
+
+.confirm-button {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 12px;
+
+  color: #ffa300;
+}
+
+.confirm-button .pixel-card {
+  width: 228px;
+  height: 56px;
+}
+
+.modal-container .pixel-vertical-line,
+.modal-container .pixel-horizontal-line,
+.modal-container .pixel-corner {
+  background-color: #393939;
+}
+
+.confirm-button .pixel-vertical-line,
+.confirm-button .pixel-horizontal-line,
+.confirm-button .pixel-corner {
+  background-color: #000;
+}
