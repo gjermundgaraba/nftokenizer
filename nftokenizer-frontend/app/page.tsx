@@ -1,29 +1,16 @@
 'use client';
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { MouseEventHandler, useEffect } from "react";
-import { useChainContext } from "../chain-stuff/chain-context";
-import { createNftSlot, getTokenizedNfts } from "../chain-stuff/chain-service";
-import { PixelGreenBorderCard } from "../components/pixel-card";
+import {useRouter} from "next/navigation";
+import {MouseEventHandler} from "react";
+import {useChainContext} from "../chain-stuff/chain-context";
+import {PixelGreenBorderCard} from "../components/pixel-card";
+import {useLoadingContext} from "../components/loading-context";
 
 
 export default function Home() {
+  const loadingContext = useLoadingContext();
   const chainContext = useChainContext();
   const router = useRouter()
-
-  useEffect(() => {
-    if (chainContext.connected) {
-      getTokenizedNfts(chainContext.address).catch((e) => {
-        console.log(e);
-      });
-
-      createNftSlot(chainContext.address, chainContext.signer!).then((res) => {
-        console.log("createNftSlot res", res);
-      }).catch((e) => {
-        console.log(e);
-      });
-    }
-  });
 
   const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();
@@ -32,11 +19,13 @@ export default function Home() {
       return;
     }
 
-    await chainContext.connectWallet();
-    console.log("address after connect", chainContext.address);
-    console.log(chainContext.connected);
-    router.push('/wallet')
-    // TODO: We are connected, so can go to next screen
+    loadingContext.setLoading(true);
+    chainContext.connectWallet().then(() => {
+      loadingContext.setLoading(false);
+      console.log("address after connect", chainContext.neutronAddress);
+      console.log(chainContext.connected);
+      router.push('/wallet')
+    });
   };
 
   return (
@@ -52,17 +41,6 @@ export default function Home() {
             <p className="font-bold text-5xl text-center mt-8">Connect Wallet</p>
           </PixelGreenBorderCard>
         </button>
-        <div className="mt-20">
-          Example, remove later<br />
-          {chainContext.connected ? (
-            <>
-              connected
-              <br />
-              {chainContext.address}
-            </>
-          ) : "not connected"}
-        </div>
-
       </div>
     </div>
   )

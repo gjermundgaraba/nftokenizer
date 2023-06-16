@@ -1,17 +1,53 @@
 'use client'
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { MintingCompletedModal } from "../../components/modal";
-import PixelBaseCard from "../../components/pixel-base-card";
-import { PixelMintButton, PixelMintCompletedButton } from "../../components/pixel-button";
-import { PixelDepositCard, PixelMintCard, PixelMintInnerCard } from "../../components/pixel-card";
-import "../styles/add-asset.css";
+import {useEffect, useState} from "react";
+import { MintingCompletedModal } from "../../../components/modal";
+import PixelBaseCard from "../../../components/pixel-base-card";
+import { PixelMintButton, PixelMintCompletedButton } from "../../../components/pixel-button";
+import { PixelDepositCard, PixelMintCard, PixelMintInnerCard } from "../../../components/pixel-card";
+import "../../styles/add-asset.css";
+import { useParams } from "next/navigation";
+import {useLoadingContext} from "../../../components/loading-context";
+import {getNftSlot, waitForSlotToBeReady} from "../../../chain-stuff/chain-service";
+import {getPlasticCreditBalance} from "../../../chain-stuff/empower";
+import {useChainContext} from "../../../chain-stuff/chain-context";
 
 export default function AddAsset() {
-  const [assetQuantity, setQuantity] = useState(175);
-  const [depositValue, setDeposit] = useState(assetQuantity);
+  const params = useParams()
+  const loadingContext = useLoadingContext();
+  const chainContext = useChainContext();
+
+  const [assetQuantity, setQuantity] = useState(0);
+  const [availableBalance, setAvailableBalance] = useState(0);
+  const [depositValue, setDeposit] = useState(0);
   const [open, setOpen] = useState(false);
+  const [assetName, setAssetName] = useState('');
+  const [assetChain, setAssetChain] = useState('');
+  const [assetType, setAssetType] = useState('');
+  const [icaAddress, setIcaAddress] = useState('');
+
+  const slotId = params.slug;
+
+  // TODO: Query asset details and ICA readiness
+
+  useEffect(() => {
+    loadingContext.setLoading(true);
+    getNftSlot(slotId).then((nftSlot) => {
+      loadingContext.setLoading(false);
+      setAssetChain(nftSlot.assetChain);
+      setAssetType(nftSlot.assetType);
+      setAssetName(nftSlot.assetName);
+
+      waitForSlotToBeReady(slotId).then((icaAddress) => {
+        setIcaAddress(icaAddress);
+      });
+
+      getPlasticCreditBalance(chainContext.empowerAddress, nftSlot.assetName).then((balance) => {
+        setAvailableBalance(balance);
+      });
+    });
+  });
 
   const handleIncrement = () => {
     setQuantity(assetQuantity + 1)
@@ -51,10 +87,10 @@ export default function AddAsset() {
               </button>
               <div className="mx-11 text-center">
                 <p className="currency deposit">
-                  $MPWR
+                  {assetName}
                 </p>
                 <p className="value deposit">
-                  {assetQuantity}
+                  {assetQuantity} / {availableBalance}
                 </p>
               </div>
               <button className="change-deposit-button" onClick={handleIncrement}>
@@ -82,10 +118,11 @@ export default function AddAsset() {
               <img src="/images/empower-coin.png" alt="empower coin" style={{ width: 187 }} />
               <img src="/images/empower-logo.png" alt="empower logo" style={{ width: 188 }} />
             </div>
+            <p style={{ padding: '20px 20px', width: 300, overflow: 'auto', fontSize: '0.75em'}}>{icaAddress ? icaAddress : 'Slot still creating' }</p>
             <div className="lower-pixel-card">
               <PixelMintInnerCard>
                 <div className="orange-card-inner">
-                  <p className="currency">$MPWR</p>
+                  <p className="currency">{assetName}</p>
                   <p className="value">{depositValue}</p>
                 </div>
               </PixelMintInnerCard>

@@ -8,7 +8,7 @@ import { WalletConnectedHeader } from "../wallet/page"
 
 export default function WalletConnected() {
   const nftAssetList: NftAsset[] = [
-    { assetId: 1, currency: '$MPWR', assetPrice: 300, address: '0x2446f1fd773fbb9f080e674b60c6a033c7ed7427b8b9413cf28a2a4a6da9b56c' }
+    { assetId: 1, name: '$MPWR', numberOfAvailable: 300, address: '0x2446f1fd773fbb9f080e674b60c6a033c7ed7427b8b9413cf28a2a4a6da9b56c' }
   ];
 
   const [open, setOpen] = useState(false);
@@ -35,10 +35,10 @@ export default function WalletConnected() {
                   <div className="flex">
                     <div className="circle"></div>
                     <div className="flex items-center ml-2.5 inter-text asset-currency">
-                      {nftAsset.currency}
+                      {nftAsset.name}
                     </div>
                   </div>
-                  <div className="inter-text asset-currency price">{nftAsset.assetPrice}</div>
+                  <div className="inter-text asset-currency price">{nftAsset.numberOfAvailable}</div>
                   <div className="flex items-center bg-white rounded-xl p-3">
                     <div className="inter-text mr-9 address-text break-all">{nftAsset.address}</div>
                     <Image src="images/copy-address.svg"

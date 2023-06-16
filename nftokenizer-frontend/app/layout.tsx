@@ -4,8 +4,17 @@ import Header from '../components/header'
 import { dogica, dogicaPixel } from '../public/fonts/dogica-font'
 import './globals.css'
 import {ChainContextProvider} from "../chain-stuff/chain-context";
+import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
+import LoadingOverlay from "../components/loading-overlay";
+import {LoadingContextProvider} from "../components/loading-context";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+
+const client = new ApolloClient({
+  uri: 'https://testnet.empowerchain.io:3000',
+  cache: new InMemoryCache(),
+});
+
 
 const metadata = {
   title: 'NFTokenizer',
@@ -26,12 +35,17 @@ export default function RootLayout({
       </head>
       <body className={`${dogica.variable} ${dogicaPixel.variable} ${inter.variable}`}>
         <div className='wrapper'>
-          <Header />
-          <div className='root'>
-            <ChainContextProvider>
-              {children}
-            </ChainContextProvider>
-          </div>
+          <LoadingContextProvider>
+            <Header />
+            <div className='root'>
+                <ApolloProvider client={client}>
+                  <ChainContextProvider>
+                   {children}
+                  </ChainContextProvider>
+                </ApolloProvider>
+            </div>
+            <LoadingOverlay />
+          </LoadingContextProvider>
         </div>
       </body>
     </html>

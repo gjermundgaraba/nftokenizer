@@ -1,19 +1,25 @@
 'use client'
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
 import { PixelRouteButton } from './pixel-button';
+import {CSSProperties} from "react";
 
 export default function Header() {
+  const router = useRouter();
   const route = usePathname();
   console.log(route);
-  const descriptionText: React.CSSProperties = {
+  const descriptionText: CSSProperties = {
     fontWeight: '700',
     fontSize: '17px',
     lineHeight: '29px',
     textAlign: 'center',
     width: '100%',
     marginTop: '23px'
+  }
+
+  const goHome = () => {
+    router.push('/');
   }
 
   return (
@@ -35,9 +41,9 @@ export default function Header() {
           </div>
         )}
       </div>
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center' style={{cursor: 'pointer'}} onClick={goHome}>
         <Image
-          src="images/nftokenizer-logo.svg"
+          src="/images/nftokenizer-logo.svg"
           alt="nftokenizer"
           width={498}
           height={46}
