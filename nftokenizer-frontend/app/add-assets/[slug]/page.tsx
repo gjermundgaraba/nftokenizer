@@ -95,7 +95,6 @@ export default function AddAsset() {
     loadingContext.setLoading(true);
     depositPlasticCredit(chainContext.empowerAddress, chainContext.empowerSigner!, icaAddress, assetName, assetQuantity).then((result) => {
       setQuantity(0);
-      console.log(result);
 
       const promises: Promise<any>[] = [];
       promises.push(getPlasticCreditBalance(chainContext.empowerAddress, assetName).then((balance) => {

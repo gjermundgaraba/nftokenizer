@@ -53,7 +53,7 @@ export default function Header() {
             )}
           </div>
         }
-        <button className='flex flex-col items-center' onClick={goHome}>
+        <div className='flex flex-col items-center'>
 
           <div className='flex items-center'>
             {isMobile &&
@@ -63,7 +63,7 @@ export default function Header() {
             }
 
             <Image
-              src="images/nftokenizer-logo.svg"
+              src="/images/nftokenizer-logo.svg"
               alt="nftokenizer"
               width={isMobile ? 307 : 498}
               height={isMobile ? 28 : 46}
@@ -72,7 +72,7 @@ export default function Header() {
           </div>
           <p className='break-all header-text'>Make your NFT using<br />
             Plastic Credits, Eco Credits or Smart Contracts</p>
-        </button>
+        </div>
       </div>
       <Menu open={openMenu} close={handleCloseMenu} />
     </main>

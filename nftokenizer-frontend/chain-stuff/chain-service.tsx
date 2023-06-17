@@ -27,7 +27,9 @@ export const getOpenNftSlots = async (address: string): Promise<NftSlot[]> => {
     }
   });
 
-  return response.nft_slots.map(nftSlotFromJson);
+  return response.nft_slots
+    .map(nftSlotFromJson)
+    .filter(nftSlot => !nftSlot.minted);
 }
 
 export const createNftSlot = async (addressOfSigner: string, signer: OfflineSigner, metadata: string) => {

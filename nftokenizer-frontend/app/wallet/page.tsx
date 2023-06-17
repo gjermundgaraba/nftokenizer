@@ -71,7 +71,7 @@ export default function WalletConnected() {
   if (!loading && !error && data) {
     let id = 0;
     for (const credit of data.query.creditBalances.nodes) {
-      walletAssets.push({ assetId: id, name: credit.creditCollection.denom, numberOfAvailable: credit.amountActive });
+      walletAssets.push(new WalletAsset(id + '', credit.creditCollection.denom, credit.amountActive));
       id++;
     }
   }

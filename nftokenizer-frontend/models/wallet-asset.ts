@@ -3,9 +3,9 @@ export class WalletAsset {
   name: string;
   numberOfAvailable: number;
 
-  constructor(assetId: string, currency: string, numberOfAvailable: number) {
+  constructor(assetId: string, name: string, numberOfAvailable: number) {
     this.assetId = assetId;
-    this.name = currency;
+    this.name = name;
     this.numberOfAvailable = numberOfAvailable;
   }
 }

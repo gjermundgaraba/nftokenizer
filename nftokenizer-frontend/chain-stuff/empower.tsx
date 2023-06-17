@@ -1,5 +1,5 @@
 import {empowerchain, getSigningTM37EmpowerchainClient} from "@empower-plastic/empowerjs";
-import {ApolloClient, InMemoryCache, ApolloProvider, gql} from '@apollo/client';
+import {ApolloClient, InMemoryCache, gql} from '@apollo/client';
 import {OfflineSigner} from "@cosmjs/proto-signing";
 import {GasPrice} from "@cosmjs/stargate";
 import {calculateFee} from "@cosmjs/stargate/build/fee";
@@ -16,6 +16,11 @@ export const getPlasticCreditBalance = async (address: string, denom: string) =>
   const balanceResponse = await queryClient.empowerchain.plasticcredit.creditBalance({
     owner: address,
     denom: denom,
+  }).catch((err: Error) => {
+    if (err.message.includes("credit balance not found")) {
+      return 0;
+    }
+    throw err;
   });
 
   const activeBalance = balanceResponse.balance?.balance?.active;
