@@ -1,8 +1,10 @@
 .add-asset {
+  width: 70%;
 }
 
 .right-side-card {
   font-family: var(--font-dogica-pixel);
+  flex: 1;
 }
 
 .lower-pixel-card {
@@ -14,6 +16,9 @@
 
 .lower-pixel-card .pixel-card {
   height: 134px;
+}
+.wrapper {
+  /* width: 60%; */
 }
 
 .orange-card-inner {
@@ -57,8 +62,11 @@
   line-height: 24px;
 }
 
+.deposit-card {
+  flex: 2;
+}
 .deposit-card .pixel-card {
-  width: 770px;
+  /* width: 770px; */
 }
 
 .deposit-card .inner-container {

@@ -1,13 +1,16 @@
 'use client'
 import Link from "next/link";
-import { useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import { useChainContext } from "../../chain-stuff/chain-context";
 import { CreateNftSlotModal } from "../../components/modal";
 import { PixelActionButton, PixelConfirmModalButton } from "../../components/pixel-button";
 import { PixelGreenBorderCard } from "../../components/pixel-card";
+import { ScreenResolutionContext } from "../../components/screen-resolution-context";
 import { WalletAsset } from "../../models/wallet-asset";
 
 export default function WalletConnected() {
+  const isMobile = useContext(ScreenResolutionContext).isMobileResolution;
+
   const [open, setOpen] = useState(false);
   const chainContext = useChainContext();
 
@@ -28,19 +31,20 @@ export default function WalletConnected() {
 
   return (
     <div style={{ width: 770 }}>
-      <PixelGreenBorderCard>
-        <WalletConnectedHeader />
+      <PixelGreenBorderCard innerPadding={isMobile ? "10px" : "50px"}>
+        <WalletConnectedHeader >Your wallet connected</WalletConnectedHeader>
         <div className="mt-12">
           {walletAssets.map((walletAsset) => {
             return (
               <div key={walletAsset.assetId} className="flex justify-between mb-10 list-element-wrapper px-2.5">
-                <div className="flex">
-                  <div className="circle"></div>
-                  <div className="flex items-center ml-2.5 inter-text asset-currency">
+                <div className="circle flex-none"></div>
+                <div className="flex w-full ml-2.5 max-[740px]:flex-col">
+                  <div className="flex items-center inter-text asset-currency flex-1">
                     {walletAsset.currency}
                   </div>
+                  <div className="inter-text asset-currency price flex-1">{walletAsset.assetPrice}</div>
+
                 </div>
-                <div className="inter-text asset-currency price">{walletAsset.assetPrice}</div>
                 <div className="mb-1.5">
                   <button onClick={handleOpenModal}>
                     <PixelActionButton >Make NFT</PixelActionButton>
@@ -67,11 +71,11 @@ export default function WalletConnected() {
   )
 }
 
-export function WalletConnectedHeader() {
+export function WalletConnectedHeader({ children }: { children: ReactNode }) {
   return (
     <div className="flex justify-between">
       <p className="font-bold text" >
-        Your wallet connected
+        {children}
       </p>
       <p className="font-bold text logout">LOGOUT</p>
     </div>

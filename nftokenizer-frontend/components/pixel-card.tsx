@@ -1,14 +1,14 @@
 import { ReactNode } from "react";
 import PixelBaseCard from "./pixel-base-card";
 
-export function PixelGreenBorderCard({ children }: { children: ReactNode }) {
+export function PixelGreenBorderCard({ children, innerPadding }: { children: ReactNode, innerPadding: string }) {
   return (
     <PixelBaseCard
       button={false}
       border={true}
       borderColor={'#CCF473'}
       cardSize="big"
-      innerPadding="80px 56px"
+      innerPadding={innerPadding}
       backgroundColor="#F5F5F5">
       {children}
     </PixelBaseCard>

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import "../app/styles/pixel-modal.css";
+import "../app/styles/modal.css";
 import { PixelModalCard } from "./pixel-card";
 
 interface BaseModalProps {
@@ -44,7 +44,7 @@ export function CreateNftSlotModal(props: ModalProps) {
       title={"Create NFT Slot"}
       closeBtnText={"Go back"}
       backgroundColor={'#ffffff'}
-      innerPadding={"74px 0 35px 0"}>
+      innerPadding={"64px 0 35px 0"}>
       {children}
     </Modal>
   )

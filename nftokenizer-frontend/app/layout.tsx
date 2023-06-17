@@ -1,9 +1,10 @@
 'use client';
-import { Inter } from 'next/font/google'
-import Header from '../components/header'
-import { dogica, dogicaPixel } from '../public/fonts/dogica-font'
-import './globals.css'
-import {ChainContextProvider} from "../chain-stuff/chain-context";
+import { Inter } from 'next/font/google';
+import { ChainContextProvider } from "../chain-stuff/chain-context";
+import Header from '../components/header';
+import { ScreenResolutionContextProvider } from '../components/screen-resolution-context';
+import { dogica, dogicaPixel } from '../public/fonts/dogica-font';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -26,12 +27,14 @@ export default function RootLayout({
       </head>
       <body className={`${dogica.variable} ${dogicaPixel.variable} ${inter.variable}`}>
         <div className='wrapper'>
-          <Header />
-          <div className='root'>
-            <ChainContextProvider>
-              {children}
-            </ChainContextProvider>
-          </div>
+          <ScreenResolutionContextProvider>
+            <Header />
+            <div className='root'>
+              <ChainContextProvider>
+                {children}
+              </ChainContextProvider>
+            </div>
+          </ScreenResolutionContextProvider>
         </div>
       </body>
     </html>

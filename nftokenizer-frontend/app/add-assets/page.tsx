@@ -34,8 +34,8 @@ export default function AddAsset() {
   }
 
   return (
-    <main className="pb-8">
-      <div className="flex add-asset">
+    <main className="pb-8 w-full">
+      <div className="flex add-asset justify-center m-auto">
 
         <div className="pr-10 deposit-card">
           <PixelDepositCard>
@@ -78,7 +78,7 @@ export default function AddAsset() {
             <Image src="/images/nft-slot-created.svg" width={246} height={83} alt="slot created" className="absolute -right-8 -top-10 z-10" />
           </div>
           <PixelMintCard>
-            <div style={{ padding: '70px 70px 50px' }}>
+            <div style={{ padding: '70px 70px 48px' }}>
               <img src="/images/empower-coin.png" alt="empower coin" style={{ width: 187 }} />
               <img src="/images/empower-logo.png" alt="empower logo" style={{ width: 188 }} />
             </div>

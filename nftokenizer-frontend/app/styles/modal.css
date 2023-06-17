@@ -6,6 +6,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.89);
   z-index: 10;
+  padding: 20px;
 }
 
 .modal-container {
@@ -36,7 +37,7 @@
   line-height: 12px;
 
   color: #ea0000;
-  margin-top: 69px;
+  margin-top: 10%;
 }
 
 .confirm-button {
@@ -62,4 +63,58 @@
 .confirm-button .pixel-horizontal-line,
 .confirm-button .pixel-corner {
   background-color: #000;
+}
+
+@media (max-width: 740px) {
+  .modal-title {
+    font-size: 20px;
+    line-height: 15px;
+  }
+
+  .modal-container .big .pixel-corner {
+    width: 13px;
+    height: 13px;
+  }
+
+  .modal-container .big .pixel-corner.upper-left {
+    top: 13px;
+    left: -13px;
+  }
+
+  .modal-container .big .pixel-corner.lower-left {
+    top: -13px;
+    left: -10px;
+  }
+
+  .modal-container .big .pixel-corner.upper-right {
+    top: 13px;
+    left: 0;
+  }
+
+  .modal-container .big .pixel-corner.lower-right {
+    top: -13px;
+    left: 0;
+  }
+
+  .modal-container .big .pixel-horizontal-line {
+    height: 13px;
+    width: calc(100% - 23px);
+  }
+
+  .modal-container .big .pixel-vertical-line {
+    min-width: 13px;
+    margin-top: 26px;
+  }
+
+  .modal-container .big .pixel-vertical-line.left-side {
+    margin-right: 10px;
+  }
+
+  .modal-container .big .pixel-vertical-line.right-side {
+    margin-left: -10px;
+  }
+
+  .modal-container .big .inner-container-wrapper {
+    margin-left: -10px;
+  }
 }
