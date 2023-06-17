@@ -1,13 +1,15 @@
 'use client';
-import {createContext, useContext, useState} from "react";
+import {createContext, ReactNode, useContext, useState} from "react";
 import {Keplr} from "@keplr-wallet/types";
 import {EmpowerChainTestnet, NeutronTestnet} from "./chains";
 import {OfflineSigner} from "@cosmjs/proto-signing";
 
 export type ChainContextType = {
   connected: boolean;
-  address: string,
-  signer: OfflineSigner | undefined;
+  neutronAddress: string,
+  empowerAddress: string,
+  neutronSigner: OfflineSigner | undefined;
+  empowerSigner: OfflineSigner | undefined;
   isKeplrInstalled: () => boolean;
   connectWallet: () => Promise<void>;
   disconnectWallet: () => Promise<void>;
@@ -18,24 +20,33 @@ const ChainContext = createContext<ChainContextType>({
   isKeplrInstalled: () => false,
   connectWallet: async () => {},
   disconnectWallet: async () => {},
-  address: '',
-  signer: undefined,
+  neutronAddress: '',
+  empowerAddress: '',
+  neutronSigner: undefined,
+  empowerSigner: undefined,
 });
 
-export function ChainContextProvider({children}: {children: React.ReactNode}) {
+export function ChainContextProvider({children}: {children: ReactNode}) {
   const keplr: Keplr = (window as any).keplr;
   const [connected, setConnected] = useState(false);
-  const [address, setAddress] = useState('');
-  const [signer, setSigner] = useState<OfflineSigner | undefined>(undefined);
+  const [neutronAddress, setNeutronAddress] = useState('');
+  const [empowerAddress, setEmpowerAddress] = useState('');
+  const [neutronSigner, setNeutronSigner] = useState<OfflineSigner | undefined>(undefined);
+  const [empowerSigner, setEmpowerSigner] = useState<OfflineSigner | undefined>(undefined);
 
   const connectWallet = async () => {
     await keplr.experimentalSuggestChain(NeutronTestnet)
     await keplr.experimentalSuggestChain(EmpowerChainTestnet);
-
     await keplr.enable([NeutronTestnet.chainId, EmpowerChainTestnet.chainId])
-    const key = await keplr.getKey(NeutronTestnet.chainId)
-    setAddress(key.bech32Address);
-    setSigner(keplr.getOfflineSigner(NeutronTestnet.chainId));
+
+    const neutronKey = await keplr.getKey(NeutronTestnet.chainId)
+    setNeutronAddress(neutronKey.bech32Address);
+    setNeutronSigner(keplr.getOfflineSigner(NeutronTestnet.chainId));
+
+    const empowerKey = await keplr.getKey(EmpowerChainTestnet.chainId)
+    setEmpowerAddress(empowerKey.bech32Address);
+    setEmpowerSigner(keplr.getOfflineSigner(EmpowerChainTestnet.chainId));
+
     setConnected(true);
   }
 
@@ -53,8 +64,10 @@ export function ChainContextProvider({children}: {children: React.ReactNode}) {
       isKeplrInstalled,
       connectWallet,
       disconnectWallet,
-      address,
-      signer,
+      neutronAddress,
+      empowerAddress,
+      neutronSigner,
+      empowerSigner,
     }}>
       {children}
     </ChainContext.Provider>

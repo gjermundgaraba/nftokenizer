@@ -1,12 +1,22 @@
 'use client';
+
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { Inter } from 'next/font/google';
 import { ChainContextProvider } from "../chain-stuff/chain-context";
 import Header from '../components/header';
+import { LoadingContextProvider } from "../components/loading-context";
+import LoadingOverlay from "../components/loading-overlay";
 import { ScreenResolutionContextProvider } from '../components/screen-resolution-context';
 import { dogica, dogicaPixel } from '../public/fonts/dogica-font';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+
+const client = new ApolloClient({
+  uri: 'https://testnet.empowerchain.io:3000',
+  cache: new InMemoryCache(),
+});
+
 
 const metadata = {
   title: 'NFTokenizer',
@@ -27,14 +37,21 @@ export default function RootLayout({
       </head>
       <body className={`${dogica.variable} ${dogicaPixel.variable} ${inter.variable}`}>
         <div className='wrapper'>
-          <ScreenResolutionContextProvider>
-            <Header />
-            <div className='root'>
-              <ChainContextProvider>
-                {children}
-              </ChainContextProvider>
-            </div>
-          </ScreenResolutionContextProvider>
+          <LoadingContextProvider>
+            <ScreenResolutionContextProvider>
+
+              <Header />
+              <div className='root'>
+                <ApolloProvider client={client}>
+                  <ChainContextProvider>
+                    {children}
+                  </ChainContextProvider>
+                </ApolloProvider>
+              </div>
+            </ScreenResolutionContextProvider>
+
+            <LoadingOverlay />
+          </LoadingContextProvider>
         </div>
       </body>
     </html>

@@ -11,9 +11,7 @@ export default function WalletConnected() {
   const isMobile = useContext(ScreenResolutionContext).isMobileResolution;
 
   const nftAssetList: NftAsset[] = [
-    { assetId: 1, currency: '$MPWR', assetPrice: 300, address: '0x2446f1fd773fbb9f080e674b60c6a033c7ed7427b8b9413cf28a2a4a6da9b56c' },
-    { assetId: 2, currency: '$MPWR', assetPrice: 300, address: '0x2446f1fd773fbb9f080e674b60c6a033c7ed7427b8b9413cf28a2a4a6da9b56c' }
-
+    { assetId: 1, name: '$MPWR', numberOfAvailable: 300, address: '0x2446f1fd773fbb9f080e674b60c6a033c7ed7427b8b9413cf28a2a4a6da9b56c' }
   ];
 
   const [open, setOpen] = useState(false);
@@ -42,9 +40,9 @@ export default function WalletConnected() {
                     <div className="circle flex-none"></div>
                     <div className="flex ml-2.5 max-[740px]:flex-col">
                       <div className="flex items-center inter-text asset-currency">
-                        {nftAsset.currency}
+                        {nftAsset.name}
                       </div>
-                      <div className="inter-text asset-currency price ml-14 max-[740px]:ml-0">{nftAsset.assetPrice}</div>
+                      <div className="inter-text asset-currency price ml-14 max-[740px]:ml-0">{nftAsset.numberOfAvailable}</div>
 
                     </div>
                     <div className="flex items-center bg-white rounded-xl p-3 ml-6">

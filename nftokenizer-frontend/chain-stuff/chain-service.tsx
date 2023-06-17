@@ -1,31 +1,44 @@
 import {CosmWasmClient, SigningCosmWasmClient} from "@cosmjs/cosmwasm-stargate";
 import {OfflineSigner} from "@cosmjs/proto-signing";
 import {GasPrice} from "@cosmjs/stargate";
+import {NftSlot, nftSlotFromJson} from "../models/nft-slot";
 
-const CONTRACT_ADDRESS = "neutron170dx8d3gj02muxd46curuv3p6w88fhz80hgs70ut0d2ulekmsqmsv5uvfw"
-const CW721_ADDRESS = "neutron1gm633m8ffp4a50593x46gg0a0ltxsefrr44wyqvltd00wa6zs99qt3wl96"
-const RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech:443"
+const CONTRACT_ADDRESS = "neutron1zkjxwed2kr6eu46hztheeqjkgmntkacd6tadteqwqk9l04x3gmjq4maq32"
+const CW721_ADDRESS = "neutron1qpdj87vl4sl9uwkzald6afawvulu6whun69fxmrcr0xp4khdlzyqf4jj94"
+const NEUTRON_RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech:443"
 const CONNECTION_ID = "connection-32"
 
-export const getTokenizedNfts = async (address: string) => {
-  console.log("Getting tokenized NFTs for address:", address);
-  const queryClient = await CosmWasmClient.connect(RPC_ENDPOINT);
-  const tokensByOwner = await queryClient.queryContractSmart(CW721_ADDRESS, {
-    "tokens": {
-      "owner": address
+export const getNftSlot = async (slotId: string) => {
+  const queryClient = await CosmWasmClient.connect(NEUTRON_RPC_ENDPOINT);
+  const response = await queryClient.queryContractSmart(CONTRACT_ADDRESS, {
+    "nft_slot": {
+      "nft_slot_id": slotId
     }
   });
-  console.log("Tokens by owner:", tokensByOwner);
+
+  return nftSlotFromJson(response);
 }
 
-export const createNftSlot = async (addressOfSigner: string, signer: OfflineSigner) => {
-  const txClient = await SigningCosmWasmClient.connectWithSigner(RPC_ENDPOINT, signer, {
+export const getOpenNftSlots = async (address: string): Promise<NftSlot[]> => {
+  const queryClient = await CosmWasmClient.connect(NEUTRON_RPC_ENDPOINT);
+  const response = await queryClient.queryContractSmart(CONTRACT_ADDRESS, {
+    "nft_slots_by_creator": {
+      "creator": address
+    }
+  });
+
+  return response.nft_slots.map(nftSlotFromJson);
+}
+
+export const createNftSlot = async (addressOfSigner: string, signer: OfflineSigner, metadata: string) => {
+  const txClient = await SigningCosmWasmClient.connectWithSigner(NEUTRON_RPC_ENDPOINT, signer, {
     gasPrice: GasPrice.fromString('0.025untrn'),
   });
 
   const createNftSlotResp = await txClient.execute(addressOfSigner, CONTRACT_ADDRESS, {
     "create_slot": {
-      "connection_id": CONNECTION_ID
+      "connection_id": CONNECTION_ID,
+      "metadata": metadata
     }
   }, "auto")
 
@@ -39,6 +52,12 @@ export const createNftSlot = async (addressOfSigner: string, signer: OfflineSign
       }
     }
   }
+
+  return slotId;
+}
+
+export const waitForSlotToBeReady = async (slotId: string) => {
+  const queryClient = await CosmWasmClient.connect(NEUTRON_RPC_ENDPOINT);
   console.log("Slot ID:", slotId);
   if (slotId === "") {
     throw new Error("Slot ID not found");
@@ -48,7 +67,7 @@ export const createNftSlot = async (addressOfSigner: string, signer: OfflineSign
   let tries = 0;
   let icaAddress = "";
   while (true) {
-    const slotInfo = await txClient.queryContractSmart(CONTRACT_ADDRESS, {
+    const slotInfo = await queryClient.queryContractSmart(CONTRACT_ADDRESS, {
       "nft_slot": {
         "nft_slot_id": slotId
       }
@@ -67,11 +86,11 @@ export const createNftSlot = async (addressOfSigner: string, signer: OfflineSign
   }
 
   console.log("ICA address:", icaAddress);
-  return slotId;
+  return icaAddress;
 }
 
 export const mintNftFromSlot = async (addressOfSigner: string, signer: OfflineSigner, slotId: string) => {
-  const txClient = await SigningCosmWasmClient.connectWithSigner(RPC_ENDPOINT, signer, {
+  const txClient = await SigningCosmWasmClient.connectWithSigner(NEUTRON_RPC_ENDPOINT, signer, {
     gasPrice: GasPrice.fromString('0.025untrn'),
   });
 
@@ -82,4 +101,15 @@ export const mintNftFromSlot = async (addressOfSigner: string, signer: OfflineSi
   }, "auto");
 
   // TODO: now what...?
+}
+
+export const getTokenizedNfts = async (address: string) => {
+  console.log("Getting tokenized NFTs for address:", address);
+  const queryClient = await CosmWasmClient.connect(NEUTRON_RPC_ENDPOINT);
+  const tokensByOwner = await queryClient.queryContractSmart(CW721_ADDRESS, {
+    "tokens": {
+      "owner": address
+    }
+  });
+  console.log("Tokens by owner:", tokensByOwner);
 }

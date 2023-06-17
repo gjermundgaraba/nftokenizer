@@ -1,13 +1,14 @@
 'use client'
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import Menu from './menu';
 import { PixelRouteButton } from './pixel-button';
 import { ScreenResolutionContext } from './screen-resolution-context';
 
 export default function Header() {
+  const router = useRouter();
   const route = usePathname();
   const [openMenu, setOpenMenu] = useState(false);
   const isMobile = useContext(ScreenResolutionContext).isMobileResolution;
@@ -18,6 +19,10 @@ export default function Header() {
 
   const handleCloseMenu = () => {
     setOpenMenu(false);
+  }
+
+  const goHome = () => {
+    router.push('/');
   }
 
   useEffect(() => {
@@ -48,7 +53,7 @@ export default function Header() {
             )}
           </div>
         }
-        <div className='flex flex-col items-center'>
+        <button className='flex flex-col items-center' onClick={goHome}>
 
           <div className='flex items-center'>
             {isMobile &&
@@ -67,7 +72,7 @@ export default function Header() {
           </div>
           <p className='break-all header-text'>Make your NFT using<br />
             Plastic Credits, Eco Credits or Smart Contracts</p>
-        </div>
+        </button>
       </div>
       <Menu open={openMenu} close={handleCloseMenu} />
     </main>
