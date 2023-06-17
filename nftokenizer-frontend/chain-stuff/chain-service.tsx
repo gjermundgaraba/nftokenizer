@@ -94,13 +94,11 @@ export const mintNftFromSlot = async (addressOfSigner: string, signer: OfflineSi
     gasPrice: GasPrice.fromString('0.025untrn'),
   });
 
-  const createNftSlotResp = await txClient.execute(addressOfSigner, CONTRACT_ADDRESS, {
+  await txClient.execute(addressOfSigner, CONTRACT_ADDRESS, {
     "mint_nft_from_slot": {
       "nft_slot_id": slotId
     }
   }, "auto");
-
-  // TODO: now what...?
 }
 
 export const getTokenizedNfts = async (address: string) => {
@@ -111,5 +109,5 @@ export const getTokenizedNfts = async (address: string) => {
       "owner": address
     }
   });
-  console.log("Tokens by owner:", tokensByOwner);
+  return tokensByOwner.tokens;
 }

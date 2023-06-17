@@ -4,6 +4,11 @@ import {Keplr} from "@keplr-wallet/types";
 import {EmpowerChainTestnet, NeutronTestnet} from "./chains";
 import {OfflineSigner} from "@cosmjs/proto-signing";
 
+export type WalletInfo = {
+  neutronAddress: string,
+  empowerAddress: string,
+}
+
 export type ChainContextType = {
   connected: boolean;
   neutronAddress: string,
@@ -11,14 +16,14 @@ export type ChainContextType = {
   neutronSigner: OfflineSigner | undefined;
   empowerSigner: OfflineSigner | undefined;
   isKeplrInstalled: () => boolean;
-  connectWallet: () => Promise<void>;
+  connectWallet: () => Promise<WalletInfo>;
   disconnectWallet: () => Promise<void>;
 }
 
 const ChainContext = createContext<ChainContextType>({
   connected: false,
   isKeplrInstalled: () => false,
-  connectWallet: async () => {},
+  connectWallet: async () => {return {neutronAddress: '', empowerAddress: ''}},
   disconnectWallet: async () => {},
   neutronAddress: '',
   empowerAddress: '',
@@ -48,6 +53,11 @@ export function ChainContextProvider({children}: {children: ReactNode}) {
     setEmpowerSigner(keplr.getOfflineSigner(EmpowerChainTestnet.chainId));
 
     setConnected(true);
+
+    return {
+      neutronAddress: neutronKey.bech32Address,
+      empowerAddress: empowerKey.bech32Address
+    };
   }
 
   const disconnectWallet = async () => {

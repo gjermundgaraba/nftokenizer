@@ -1,11 +1,11 @@
 export class WalletAsset {
-  assetId: number;
+  assetId: string;
   name: string;
   numberOfAvailable: number;
 
-  constructor(assetId: number, currency: string, assetPrice: number) {
+  constructor(assetId: string, currency: string, numberOfAvailable: number) {
     this.assetId = assetId;
     this.name = currency;
-    this.numberOfAvailable = assetPrice;
+    this.numberOfAvailable = numberOfAvailable;
   }
 }

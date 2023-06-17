@@ -16,6 +16,7 @@ export type NftSlot = {
   assetChain: string,
   assetType: string,
   assetName: string,
+  icaAddress?: string,
 }
 
 export const nftSlotFromJson = (json: any): NftSlot => {
@@ -32,5 +33,6 @@ export const nftSlotFromJson = (json: any): NftSlot => {
     assetChain,
     assetType,
     assetName,
+    icaAddress: json.nft_slot.ica_address ? json.nft_slot.ica_address : undefined,
   }
 }

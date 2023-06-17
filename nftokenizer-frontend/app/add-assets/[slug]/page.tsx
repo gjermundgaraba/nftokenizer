@@ -9,8 +9,8 @@ import { PixelDepositCard, PixelMintCard, PixelMintInnerCard } from "../../../co
 import "../../styles/add-asset.css";
 import { useParams } from "next/navigation";
 import {useLoadingContext} from "../../../components/loading-context";
-import {getNftSlot, waitForSlotToBeReady} from "../../../chain-stuff/chain-service";
-import {getPlasticCreditBalance} from "../../../chain-stuff/empower";
+import {getNftSlot, mintNftFromSlot, waitForSlotToBeReady} from "../../../chain-stuff/chain-service";
+import {depositPlasticCredit, getPlasticCreditBalance} from "../../../chain-stuff/empower";
 import {useChainContext} from "../../../chain-stuff/chain-context";
 
 export default function AddAsset() {
@@ -25,40 +25,107 @@ export default function AddAsset() {
   const [assetName, setAssetName] = useState('');
   const [assetChain, setAssetChain] = useState('');
   const [assetType, setAssetType] = useState('');
+  const [openForMint, setOpenForMint] = useState(false);
   const [icaAddress, setIcaAddress] = useState('');
 
   const slotId = params.slug;
 
-  // TODO: Query asset details and ICA readiness
-
-  useEffect(() => {
-    loadingContext.setLoading(true);
+  const loadItAll = async (empowerAddress: string) => {
     getNftSlot(slotId).then((nftSlot) => {
       loadingContext.setLoading(false);
+      setOpenForMint(!nftSlot.minted);
       setAssetChain(nftSlot.assetChain);
       setAssetType(nftSlot.assetType);
       setAssetName(nftSlot.assetName);
 
       waitForSlotToBeReady(slotId).then((icaAddress) => {
         setIcaAddress(icaAddress);
+
+        getPlasticCreditBalance(icaAddress, nftSlot.assetName).then((balance) => {
+          setDeposit(balance);
+        });
       });
 
-      getPlasticCreditBalance(chainContext.empowerAddress, nftSlot.assetName).then((balance) => {
+      getPlasticCreditBalance(empowerAddress, nftSlot.assetName).then((balance) => {
         setAvailableBalance(balance);
       });
     });
-  });
+  }
+
+  useEffect(() => {
+    loadingContext.setLoading(true);
+    if (chainContext.connected) {
+      loadItAll(chainContext.empowerAddress).catch((error) => {
+        console.log(error);
+        alert(error);
+        loadingContext.setLoading(false);
+      });
+    } else {
+      chainContext.connectWallet().then(walletInfo => {
+        loadItAll(walletInfo.empowerAddress).catch((error) => {
+          console.log(error);
+          alert(error);
+          loadingContext.setLoading(false);
+        });
+      });
+    }
+
+  }, []);
 
   const handleIncrement = () => {
-    setQuantity(assetQuantity + 1)
+    const newQuantity = assetQuantity + 1;
+    if (newQuantity > availableBalance) {
+      return;
+    }
+
+    setQuantity(newQuantity)
   }
 
   const handleDecrement = () => {
-    setQuantity(assetQuantity - 1)
+    const newQuantity = assetQuantity - 1;
+    if (newQuantity < 0) {
+      return;
+    }
+
+    setQuantity(newQuantity)
   }
 
   const handleDepositValue = () => {
-    setDeposit(assetQuantity);
+    //setDeposit(assetQuantity);
+    loadingContext.setLoading(true);
+    depositPlasticCredit(chainContext.empowerAddress, chainContext.empowerSigner!, icaAddress, assetName, assetQuantity).then((result) => {
+      setQuantity(0);
+      console.log(result);
+
+      const promises: Promise<any>[] = [];
+      promises.push(getPlasticCreditBalance(chainContext.empowerAddress, assetName).then((balance) => {
+        setAvailableBalance(balance);
+      }));
+
+      promises.push(getPlasticCreditBalance(icaAddress, assetName).then((balance) => {
+        setDeposit(balance);
+      }));
+
+      return Promise.all(promises);
+    }).finally(() => {
+      loadingContext.setLoading(false);
+    });
+  }
+
+  const handleMint = () => {
+    if (!openForMint) {
+      alert("Not open for mint!")
+      return;
+    }
+    loadingContext.setLoading(true);
+    mintNftFromSlot(chainContext.neutronAddress, chainContext.neutronSigner!, slotId).then(() => {
+      loadingContext.setLoading(false);
+      setOpen(true);
+    }).catch((error) => {
+      console.log(error);
+      loadingContext.setLoading(false);
+      alert(error);
+    });
   }
 
   const handleOpenModal = () => {
@@ -129,7 +196,7 @@ export default function AddAsset() {
             </div>
           </PixelMintCard>
           <div className="flex">
-            <button className="mint-button" onClick={handleOpenModal}>
+            <button className="mint-button" onClick={handleMint}>
               <PixelMintButton>
                 <p className="button-text">MINT</p>
               </PixelMintButton>

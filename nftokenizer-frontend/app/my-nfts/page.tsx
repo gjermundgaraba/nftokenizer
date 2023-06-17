@@ -1,23 +1,61 @@
 'use client'
 import Image from "next/image"
-import { useContext, useState } from "react"
+import { useEffect, useContext, useState } from "react"
 import { PixelActionButton } from "../../components/pixel-button"
 import { PixelDropdown, PixelGreenBorderCard } from "../../components/pixel-card"
 import { ScreenResolutionContext } from "../../components/screen-resolution-context"
 import { NftAsset } from "../../models/nft"
 import { WalletConnectedHeader } from "../wallet/page"
+import {getNftSlot, getTokenizedNfts} from "../../chain-stuff/chain-service";
+import {useLoadingContext} from "../../components/loading-context";
+import {useChainContext} from "../../chain-stuff/chain-context";
+import {NftSlot} from "../../models/nft-slot";
 
 export default function WalletConnected() {
   const isMobile = useContext(ScreenResolutionContext).isMobileResolution;
 
-  const nftAssetList: NftAsset[] = [
-    { assetId: 1, name: '$MPWR', numberOfAvailable: 300, address: '0x2446f1fd773fbb9f080e674b60c6a033c7ed7427b8b9413cf28a2a4a6da9b56c' }
-  ];
-
+  const loadingContext = useLoadingContext();
+  const chainContext = useChainContext();
   const [open, setOpen] = useState(false);
+  const [nftAssets, setNftAssets] = useState<NftAsset[]>([]);
+
   const handleOpen = () => {
     setOpen(!open);
   };
+
+  const loadItAll = async (neutronAddress: string) => {
+    const nftIds = await getTokenizedNfts(neutronAddress);
+    const nftSlots: NftSlot[] = [];
+    for (let i = 0; i < nftIds.length; i++) {
+      const nftSlot = await getNftSlot(nftIds[i]);
+      nftSlots.push(nftSlot);
+    }
+
+    setNftAssets(nftSlots.map(nftSlot => new NftAsset(nftSlot.id, nftSlot.assetName, 0, nftSlot.icaAddress!)));
+  }
+
+  useEffect(() => {
+    loadingContext.setLoading(true);
+    console.log("using effect");
+    if (chainContext.connected) {
+      loadItAll(chainContext.neutronAddress).catch((error) => {
+        console.log(error);
+        alert(error);
+      }).finally(() => {
+        loadingContext.setLoading(false);
+      });
+    } else {
+      chainContext.connectWallet().then(walletInfo => {
+        return loadItAll(walletInfo.neutronAddress).catch((error) => {
+          console.log(error);
+          alert(error);
+        });
+      }).finally(() => {
+        loadingContext.setLoading(false);
+      });
+    }
+
+  }, []);
 
   const clickOnMenuItem1 = (item) => {
     console.log('boop')
@@ -31,7 +69,7 @@ export default function WalletConnected() {
       <PixelGreenBorderCard innerPadding={isMobile ? "10px" : "50px"}>
         <WalletConnectedHeader >My NFTs</WalletConnectedHeader>
         <div className="mt-12">
-          {nftAssetList.map((nftAsset) => {
+          {nftAssets.map((nftAsset) => {
             return (
               <div key={nftAsset.assetId} className="flex mb-10 list-element-wrapper p-2.5">
 
@@ -42,11 +80,9 @@ export default function WalletConnected() {
                       <div className="flex items-center inter-text asset-currency">
                         {nftAsset.name}
                       </div>
-                      <div className="inter-text asset-currency price ml-14 max-[740px]:ml-0">{nftAsset.numberOfAvailable}</div>
-
                     </div>
                     <div className="flex items-center bg-white rounded-xl p-3 ml-6">
-                      <div className="inter-text mr-9 address-text break-all">{nftAsset.address}</div>
+                      <div className="inter-text mr-9 address-text break-all" style={{fontSize: "0.7em"}}>{nftAsset.address}</div>
                       <Image src="images/copy-address.svg"
                         alt="copy-btn"
                         width={19}

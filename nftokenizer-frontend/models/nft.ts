@@ -3,12 +3,12 @@ import { WalletAsset } from "./wallet-asset";
 export class NftAsset extends WalletAsset {
   address: string;
   constructor(
-    assetId: number,
+    assetId: string,
     currency: string,
-    assetPrice: number,
+    numberOfAvailable: number,
     address: string
   ) {
-    super(assetId, currency, assetPrice);
+    super(assetId, currency, numberOfAvailable);
     this.address = address;
   }
 }

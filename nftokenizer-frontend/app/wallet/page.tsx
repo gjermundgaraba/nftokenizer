@@ -76,15 +76,25 @@ export default function WalletConnected() {
     }
   }
 
-  if (!chainContext.connected) {
-    router.push('/')
-  }
-
   useEffect(() => {
-    getOpenNftSlots(chainContext.neutronAddress).then((slots) => {
-      console.log("getOpenNftSlots res", slots);
-      setNftSlots(slots);
-    });
+    if (chainContext.connected) {
+      getOpenNftSlots(chainContext.neutronAddress).then((slots) => {
+        console.log("getOpenNftSlots res", slots);
+        setNftSlots(slots);
+      });
+    } else {
+      chainContext.connectWallet().then(walletInfo => {
+        console.log("walletInfo", walletInfo);
+        return getOpenNftSlots(walletInfo.neutronAddress).then((slots) => {
+          console.log("getOpenNftSlots res", slots);
+          setNftSlots(slots);
+        });
+      }).catch((e) => {
+        console.log(e);
+        alert(e);
+        router.push("/");
+      });
+    }
   }, []);
 
   const handleOpenModal = (walletAsset: WalletAsset) => {
