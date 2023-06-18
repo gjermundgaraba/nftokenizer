@@ -1,18 +1,18 @@
 'use client'
 import Image from "next/image"
-import { useEffect, useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { useChainContext } from "../../chain-stuff/chain-context"
+import { getNftSlot, getTokenizedNfts } from "../../chain-stuff/chain-service"
+import { useLoadingContext } from "../../components/loading-context"
 import { PixelActionButton } from "../../components/pixel-button"
 import { PixelDropdown, PixelGreenBorderCard } from "../../components/pixel-card"
 import { ScreenResolutionContext } from "../../components/screen-resolution-context"
+import { WalletConnectedHeader } from "../../components/wallet-connected-header"
 import { NftAsset } from "../../models/nft"
-import {getNftSlot, getTokenizedNfts} from "../../chain-stuff/chain-service";
-import {useLoadingContext} from "../../components/loading-context";
-import {useChainContext} from "../../chain-stuff/chain-context";
 import {NftSlot} from "../../models/nft-slot";
-import {WalletConnectedHeader} from "../../components/wallet-connected-header";
 
 export default function WalletConnected() {
-  const isMobile = useContext(ScreenResolutionContext).isMobileResolution;
+  const isMobile = useContext(ScreenResolutionContext).isResolutionMobile;
 
   const loadingContext = useLoadingContext();
   const chainContext = useChainContext();
@@ -100,9 +100,9 @@ export default function WalletConnected() {
                       <div className="inter-text asset-currency price ml-14 max-[740px]:ml-0">{nftAsset.name}</div>
                     </div>
                     <div className="flex items-center bg-white rounded-xl p-3 ml-6">
-                      <div className="inter-text mr-9 address-text break-all" style={{fontSize: "0.7em"}}>{nftAsset.address}</div>
+                      <div className="inter-text mr-9 address-text break-all" style={{ fontSize: "0.7em" }}>{nftAsset.address}</div>
                       <Image src="images/copy-address.svg"
-                             onClick={() => handleAddressCopyClick(nftAsset.address)}
+                        onClick={() => handleAddressCopyClick(nftAsset.address)}
                         alt="copy-btn"
                         width={19}
                         height={22} />

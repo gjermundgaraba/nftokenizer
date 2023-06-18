@@ -15,14 +15,14 @@ export function PixelGreenBorderCard({ children, innerPadding }: { children: Rea
   )
 }
 
-export function PixelDepositCard({ children }: { children: ReactNode }) {
+export function PixelDepositCard({ children, innerPadding }: { children: ReactNode, innerPadding: string }) {
   return (
     <PixelBaseCard
       button={false}
       border={true}
       borderColor={'#CCF473'}
       cardSize="big"
-      innerPadding="40px 40px 25px"
+      innerPadding={innerPadding}
       backgroundColor="#F5F5F5">
       {children}
     </PixelBaseCard>
