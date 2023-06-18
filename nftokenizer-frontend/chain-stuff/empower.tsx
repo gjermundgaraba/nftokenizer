@@ -3,6 +3,7 @@ import {ApolloClient, InMemoryCache, gql} from '@apollo/client';
 import {OfflineSigner} from "@cosmjs/proto-signing";
 import {GasPrice} from "@cosmjs/stargate";
 import {calculateFee} from "@cosmjs/stargate/build/fee";
+import {QueryCreditBalanceResponse} from "@empower-plastic/empowerjs/types/codegen/empowerchain/plasticcredit/query";
 
 
 const rpcEndpoint = "https://empower-testnet-rpc.polkachu.com:443";
@@ -18,12 +19,18 @@ export const getPlasticCreditBalance = async (address: string, denom: string) =>
     denom: denom,
   }).catch((err: Error) => {
     if (err.message.includes("credit balance not found")) {
-      return 0;
+      return {
+        balance: {
+          balance: {
+            active: "0",
+          }
+        }
+      };
     }
     throw err;
   });
 
-  const activeBalance = balanceResponse.balance?.balance?.active;
+  const activeBalance = (balanceResponse as QueryCreditBalanceResponse).balance?.balance?.active;
   return (typeof activeBalance !== 'undefined') ? Number(activeBalance) : 0;
 }
 

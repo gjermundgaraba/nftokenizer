@@ -5,11 +5,11 @@ import { PixelActionButton } from "../../components/pixel-button"
 import { PixelDropdown, PixelGreenBorderCard } from "../../components/pixel-card"
 import { ScreenResolutionContext } from "../../components/screen-resolution-context"
 import { NftAsset } from "../../models/nft"
-import { WalletConnectedHeader } from "../wallet/page"
 import {getNftSlot, getTokenizedNfts} from "../../chain-stuff/chain-service";
 import {useLoadingContext} from "../../components/loading-context";
 import {useChainContext} from "../../chain-stuff/chain-context";
 import {NftSlot} from "../../models/nft-slot";
+import {WalletConnectedHeader} from "../../components/wallet-connected-header";
 
 export default function WalletConnected() {
   const isMobile = useContext(ScreenResolutionContext).isMobileResolution;
