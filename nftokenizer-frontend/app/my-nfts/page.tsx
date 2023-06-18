@@ -95,8 +95,9 @@ export default function WalletConnected() {
                     <div className="circle flex-none"></div>
                     <div className="flex ml-2.5 max-[740px]:flex-col">
                       <div className="flex items-center inter-text asset-currency">
-                        {nftAsset.name}
+                        {nftAsset.assetId}
                       </div>
+                      <div className="inter-text asset-currency price ml-14 max-[740px]:ml-0">{nftAsset.name}</div>
                     </div>
                     <div className="flex items-center bg-white rounded-xl p-3 ml-6">
                       <div className="inter-text mr-9 address-text break-all" style={{fontSize: "0.7em"}}>{nftAsset.address}</div>
