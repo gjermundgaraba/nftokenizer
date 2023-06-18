@@ -32,7 +32,6 @@ const ChainContext = createContext<ChainContextType>({
 });
 
 export function ChainContextProvider({children}: {children: ReactNode}) {
-  const keplr: Keplr = (window as any).keplr;
   const [connected, setConnected] = useState(false);
   const [neutronAddress, setNeutronAddress] = useState('');
   const [empowerAddress, setEmpowerAddress] = useState('');
@@ -40,6 +39,7 @@ export function ChainContextProvider({children}: {children: ReactNode}) {
   const [empowerSigner, setEmpowerSigner] = useState<OfflineSigner | undefined>(undefined);
 
   const connectWallet = async () => {
+    const keplr: Keplr = (window as any).keplr;
     await keplr.experimentalSuggestChain(NeutronTestnet)
     await keplr.experimentalSuggestChain(EmpowerChainTestnet);
     await keplr.enable([NeutronTestnet.chainId, EmpowerChainTestnet.chainId])
@@ -65,6 +65,7 @@ export function ChainContextProvider({children}: {children: ReactNode}) {
   }
 
   const isKeplrInstalled = (): boolean => {
+    const keplr: Keplr = (window as any).keplr;
     return !!keplr;
   }
 
