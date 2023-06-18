@@ -8,6 +8,8 @@ Tokenize any asset, cross-chain, into an NFT use it in any way you could an NFT 
 
 ![Screenshot 1](screenshot-1.png)
 
+A video demo can be found here: https://www.youtube.com/watch?v=fow_uQqEak4
+
 ## What has been built:
 
 ### NFTokenizer contract
@@ -23,6 +25,8 @@ The CW721 contract deployed for the hackathon is here: https://neutron.celat.one
 ### NFTokenizer frontend
 A playful and easy-to-use UI has been developed to let anyone use the contract easily.
 It abstracts away a lot of these concepts to make it straightforward to create and mint NFTs.
+
+You can find a deployed version here: https://nftokenizer.vercel.app/
 
 ![Screenshot 1](screenshot-1.png)
 
