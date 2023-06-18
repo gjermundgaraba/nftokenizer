@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { createNftSlot, getOpenNftSlots } from "../../chain-stuff/chain-service";
 import { useLoadingContext } from "../../components/loading-context";
 import { NftSlot } from "../../models/nft-slot";
+import {WalletConnectedHeader} from "../../components/wallet-connected-header";
 
 export default function WalletConnected() {
   const isMobile = useContext(ScreenResolutionContext).isResolutionMobile;
@@ -186,18 +187,7 @@ export default function WalletConnected() {
   )
 }
 
-export function WalletConnectedHeader({ children }: { children: ReactNode }) {
-  return (
-    <div className="flex justify-between">
-      <p className="font-bold text" >
-        {children}
-      </p>
-      <p className="font-bold text logout">LOGOUT</p>
-    </div>
-  )
-}
-
-export function NftSlotsHeader() {
+function NftSlotsHeader() {
   return (
     <div className="flex justify-between" style={{ marginTop: '50px' }}>
       <p className="font-bold text">

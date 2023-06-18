@@ -7,20 +7,25 @@ import { useLoadingContext } from "../../components/loading-context"
 import { PixelActionButton } from "../../components/pixel-button"
 import { PixelDropdown, PixelGreenBorderCard } from "../../components/pixel-card"
 import { ScreenResolutionContext } from "../../components/screen-resolution-context"
+import { WalletConnectedHeader } from "../../components/wallet-connected-header"
 import { NftAsset } from "../../models/nft"
 import { NftSlot } from "../../models/nft-slot"
-import { WalletConnectedHeader } from "../wallet/page"
 
 export default function WalletConnected() {
   const isMobile = useContext(ScreenResolutionContext).isResolutionMobile;
 
   const loadingContext = useLoadingContext();
   const chainContext = useChainContext();
-  const [open, setOpen] = useState(false);
+  const [openIndex, setOpenIndex] = useState(-1);
   const [nftAssets, setNftAssets] = useState<NftAsset[]>([]);
 
-  const handleOpen = () => {
-    setOpen(!open);
+  const handleOpen = (index: number) => {
+    if (openIndex === index) {
+      setOpenIndex(-1);
+      return;
+    }
+
+    setOpenIndex(index);
   };
 
   const loadItAll = async (neutronAddress: string) => {
@@ -57,11 +62,23 @@ export default function WalletConnected() {
 
   }, []);
 
-  const clickOnMenuItem1 = (item) => {
-    console.log('boop')
+  const handleAddressCopyClick = (address: string) => {
+    navigator.clipboard.writeText(address).then(() => {
+      alert("ICA address copied to clipboard");
+    }).catch((error) => {
+      alert("Error copying address to clipboard: " + error);
+    });
   }
-  const clickOnMenuItem2 = (item) => {
-    console.log('boop2')
+
+  const handleTransferClick = (nftAsset: NftAsset) => {
+    alert("Not implemented yet");
+  }
+  const handleListClick = (nftAsset: NftAsset) => {
+    alert("Not implemented yet");
+  }
+
+  const handleRedeemClick = (nftAsset: NftAsset) => {
+    alert("Not implemented yet");
   }
 
   return (
@@ -69,7 +86,7 @@ export default function WalletConnected() {
       <PixelGreenBorderCard innerPadding={isMobile ? "10px" : "50px"}>
         <WalletConnectedHeader >My NFTs</WalletConnectedHeader>
         <div className="mt-12">
-          {nftAssets.map((nftAsset) => {
+          {nftAssets.map((nftAsset, index) => {
             return (
               <div key={nftAsset.assetId} className="flex mb-10 list-element-wrapper p-2.5">
 
@@ -84,29 +101,30 @@ export default function WalletConnected() {
                     <div className="flex items-center bg-white rounded-xl p-3 ml-6">
                       <div className="inter-text mr-9 address-text break-all" style={{ fontSize: "0.7em" }}>{nftAsset.address}</div>
                       <Image src="images/copy-address.svg"
+                        onClick={() => handleAddressCopyClick(nftAsset.address)}
                         alt="copy-btn"
                         width={19}
                         height={22} />
                     </div>
                   </div>
                   <div className="ml-11 mb-1.5 max-[740px]:justify-end max-[740px]:flex max-[740px]:ml-0 max-[740px]:mt-3.5">
-                    <button onClick={handleOpen}>
+                    <button onClick={() => handleOpen(index)}>
                       <PixelActionButton >Action</PixelActionButton>
                     </button>
-                    {open && (
+                    {openIndex === index && (
                       <div className="absolute z-10 text-center" style={{ width: '130px' }}>
                         <PixelDropdown >
                           <ul className="menu">
                             <li className="menu-item py-1.5">
-                              <button onClick={clickOnMenuItem1}>Menu 1</button>
+                              <button onClick={() => handleTransferClick(nftAsset)}>Transfer</button>
                             </li>
                             <hr />
                             <li className="menu-item  py-1.5">
-                              <button onClick={clickOnMenuItem2}>Menu 2</button>
+                              <button onClick={() => handleListClick(nftAsset)}>List</button>
                             </li>
                             <hr />
                             <li className="menu-item py-1.5">
-                              <button onClick={clickOnMenuItem2}>Menu 3</button>
+                              <button onClick={() => handleRedeemClick(nftAsset)}>Redeem</button>
                             </li>
                           </ul>
 
