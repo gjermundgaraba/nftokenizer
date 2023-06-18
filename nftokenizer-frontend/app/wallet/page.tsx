@@ -14,7 +14,7 @@ import { useLoadingContext } from "../../components/loading-context";
 import { NftSlot } from "../../models/nft-slot";
 
 export default function WalletConnected() {
-  const isMobile = useContext(ScreenResolutionContext).isMobileResolution;
+  const isMobile = useContext(ScreenResolutionContext).isResolutionMobile;
 
   const loadingContext = useLoadingContext();
   const [open, setOpen] = useState(false);

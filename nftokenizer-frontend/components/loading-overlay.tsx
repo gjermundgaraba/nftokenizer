@@ -1,6 +1,6 @@
-import {CSSProperties} from "react";
-import './loading-overlay.css'
-import {useLoadingContext} from "./loading-context";
+import { CSSProperties } from "react";
+import { useLoadingContext } from "./loading-context";
+import './loading-overlay.css';
 
 export default function LoadingOverlay() {
   const loadingContext = useLoadingContext();
@@ -10,7 +10,7 @@ export default function LoadingOverlay() {
   }
 
   const loadingStyle: CSSProperties = {
-    position: 'absolute',
+    position: 'fixed',
     top: '0',
     left: '0',
     width: '100%',

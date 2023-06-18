@@ -2,17 +2,25 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 
 export const ScreenResolutionContext = createContext({
-  isMobileResolution: false
+  isResolutionMobile: false,
+  isResolutionMedium: false
 })
 
 export function ScreenResolutionContextProvider({ children }: { children: ReactNode }) {
-  const [isMobileResolution, setIsMobileResolution] = useState(typeof window !== "undefined" && window.innerWidth <= 740 ? true : false);
+  const [isResolutionMobile, setIsResolutionMobile] = useState(typeof window !== "undefined" && window.innerWidth <= 740 ? true : false);
+  const [isResolutionMedium, setisResolutionMedium] = useState(typeof window !== "undefined" && window.innerWidth <= 1234 ? true : false);
+
 
   function handleWindowResize() {
     if (window.innerWidth <= 740) {
-      setIsMobileResolution(true)
+      setIsResolutionMobile(true)
     } else {
-      setIsMobileResolution(false)
+      setIsResolutionMobile(false)
+    }
+    if (window.innerWidth <= 1234) {
+      setisResolutionMedium(true)
+    } else {
+      setisResolutionMedium(false)
     }
   }
 
@@ -24,7 +32,7 @@ export function ScreenResolutionContextProvider({ children }: { children: ReactN
   }, [])
 
   return (
-    <ScreenResolutionContext.Provider value={{ isMobileResolution }}>
+    <ScreenResolutionContext.Provider value={{ isResolutionMobile, isResolutionMedium }}>
       {children}
     </ScreenResolutionContext.Provider>
   )

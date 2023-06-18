@@ -24,7 +24,7 @@ export default function Modal(props: BaseModalProps) {
   return (
     <div className="modal-wrapper">
       <div className="modal-container">
-        <p className="text-white modal-title">{title}</p>
+        <p className="text-white modal-title text-center">{title}</p>
         <PixelModalCard backgroundColor={backgroundColor} innerPadding={innerPadding}>
           {children}
         </PixelModalCard>

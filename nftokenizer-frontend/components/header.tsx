@@ -11,7 +11,7 @@ export default function Header() {
   const router = useRouter();
   const route = usePathname();
   const [openMenu, setOpenMenu] = useState(false);
-  const isMobile = useContext(ScreenResolutionContext).isMobileResolution;
+  const isMobile = useContext(ScreenResolutionContext).isResolutionMobile;
 
   const handleOpenMenu = () => {
     setOpenMenu(true);

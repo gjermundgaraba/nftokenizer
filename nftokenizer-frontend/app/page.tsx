@@ -12,7 +12,7 @@ export default function Home() {
   const loadingContext = useLoadingContext();
   const chainContext = useChainContext();
   const router = useRouter();
-  const isMobile = useContext(ScreenResolutionContext).isMobileResolution;
+  const isMobile = useContext(ScreenResolutionContext).isResolutionMobile;
 
   const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();

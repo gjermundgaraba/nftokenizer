@@ -1,18 +1,18 @@
 'use client'
 import Image from "next/image"
-import { useEffect, useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { useChainContext } from "../../chain-stuff/chain-context"
+import { getNftSlot, getTokenizedNfts } from "../../chain-stuff/chain-service"
+import { useLoadingContext } from "../../components/loading-context"
 import { PixelActionButton } from "../../components/pixel-button"
 import { PixelDropdown, PixelGreenBorderCard } from "../../components/pixel-card"
 import { ScreenResolutionContext } from "../../components/screen-resolution-context"
 import { NftAsset } from "../../models/nft"
+import { NftSlot } from "../../models/nft-slot"
 import { WalletConnectedHeader } from "../wallet/page"
-import {getNftSlot, getTokenizedNfts} from "../../chain-stuff/chain-service";
-import {useLoadingContext} from "../../components/loading-context";
-import {useChainContext} from "../../chain-stuff/chain-context";
-import {NftSlot} from "../../models/nft-slot";
 
 export default function WalletConnected() {
-  const isMobile = useContext(ScreenResolutionContext).isMobileResolution;
+  const isMobile = useContext(ScreenResolutionContext).isResolutionMobile;
 
   const loadingContext = useLoadingContext();
   const chainContext = useChainContext();
@@ -82,7 +82,7 @@ export default function WalletConnected() {
                       </div>
                     </div>
                     <div className="flex items-center bg-white rounded-xl p-3 ml-6">
-                      <div className="inter-text mr-9 address-text break-all" style={{fontSize: "0.7em"}}>{nftAsset.address}</div>
+                      <div className="inter-text mr-9 address-text break-all" style={{ fontSize: "0.7em" }}>{nftAsset.address}</div>
                       <Image src="images/copy-address.svg"
                         alt="copy-btn"
                         width={19}
