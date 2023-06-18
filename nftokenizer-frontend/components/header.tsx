@@ -57,7 +57,7 @@ export default function Header() {
 
           <div className='flex items-center'>
             {isMobile &&
-              <button className='mr-5' onClick={handleOpenMenu}>
+              <button className='mr-5 flex flex-none' onClick={handleOpenMenu}>
                 <Image src="/images/hamburger-menu.svg" alt="menu" width={26} height={26} />
               </button>
             }
