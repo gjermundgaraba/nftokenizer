@@ -10,6 +10,7 @@ pub struct InstantiateMsg {
 pub enum ExecuteMsg {
     CreateSlot {
         connection_id: String,
+        metadata: String,
     },
     MintNftFromSlot {
         nft_slot_id: String,
@@ -25,6 +26,10 @@ pub enum QueryMsg {
     NftSlots {
         limit: Option<u64>,
         start_after: Option<u64>,
+    },
+    #[returns(NftSlotsResponse)]
+    NftSlotsByCreator {
+        creator: String,
     },
     #[returns(NftSlot)]
     NftSlot {

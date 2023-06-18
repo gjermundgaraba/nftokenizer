@@ -1,0 +1,163 @@
+.add-asset {
+  width: 70%;
+}
+
+.right-side-card {
+  font-family: var(--font-dogica-pixel);
+  flex: 1;
+}
+
+.lower-pixel-card {
+  width: calc(100% + 27px);
+  margin-left: -14px;
+  position: relative;
+  top: 13px;
+}
+
+.lower-pixel-card .pixel-card {
+  height: 134px;
+}
+.wrapper {
+  /* width: 60%; */
+}
+
+.orange-card-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 86%;
+  color: #ffffff;
+}
+
+.currency {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 14px;
+  margin-bottom: 17px;
+}
+
+.value {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 24px;
+}
+
+.mint-button {
+  z-index: 10;
+  position: relative;
+  margin: auto;
+  top: -13px;
+}
+
+.mint-button .pixel-card {
+  width: 197px;
+  height: 50px;
+}
+
+.button-text {
+  color: white;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 24px;
+}
+
+.deposit-card {
+  flex: 2;
+}
+.deposit-card .pixel-card {
+  /* width: 770px; */
+}
+
+.deposit-card .inner-container {
+  padding: 40px;
+}
+
+.logout {
+  text-align: end;
+}
+
+.description-text {
+  margin-top: 85px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 12px;
+}
+
+.change-deposit-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.change-deposit-button .pixel-card {
+  height: 47px;
+  width: 53px;
+}
+
+.change-deposit-button .inner-container {
+  padding: 0;
+}
+
+.minus {
+  bottom: 5px;
+}
+
+.plus {
+  left: 3px;
+}
+
+.change-value-button-text {
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 32px;
+  position: relative;
+
+  color: #ffa300;
+}
+
+.currency.deposit {
+  color: #3b00ea;
+  margin-bottom: 27px;
+}
+
+.value.deposit {
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 36px;
+
+  color: #3b00ea;
+}
+
+.deposit-button .pixel-card {
+  width: 252px;
+  height: 50px;
+}
+
+.deposit-button .inner-container {
+  padding: 0;
+}
+
+.deposit-button {
+  margin: 117px auto 0 auto;
+}
+
+.back-btn {
+  color: #ffffff;
+}
+
+.back-btn .pixel-card {
+  width: 252px;
+  height: 50px;
+}
+
+.modal-btn {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 12px;
+  color: #ff5c00;
+}
+.modal-btn .pixel-card {
+  width: 228px;
+  height: 66px;
+}
