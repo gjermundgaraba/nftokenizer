@@ -18,6 +18,8 @@ to create interchain accounts (https://docs.neutron.org/neutron/modules/intercha
 and implements the sudo callback from Neutron's SDK to allow the contract to 
 find the interchain account address.
 
+Deployed NFTokenizer contract address: neutron1zkjxwed2kr6eu46hztheeqjkgmntkacd6tadteqwqk9l04x3gmjq4maq32
+
 You can interact directly with the contract on Celatone: https://neutron.celat.one/testnet/query?contract=neutron1zkjxwed2kr6eu46hztheeqjkgmntkacd6tadteqwqk9l04x3gmjq4maq32
 
 The CW721 contract deployed for the hackathon is here: https://neutron.celat.one/testnet/query?contract=neutron1qpdj87vl4sl9uwkzald6afawvulu6whun69fxmrcr0xp4khdlzyqf4jj94
@@ -70,7 +72,17 @@ Other smaller things that will be fixed later:
 - Combine NFT Slot creation with NFT minting action (so the user doesn't have to make two transactions to create an NFT)
 - Allow transfer of NFT from the UI itself (it is supported from any other NFT UI since the NFTs are standard CW721)
 
+## Build instructions
 
+### Frontend
 
+The frontend code can be found under the `nftokenizer-frontend` folder.
 
+Build and run instructions can be found in the `nftokenizer-frontend/README.md` file.
+
+### Smart contract
+The smart contract code can be found under the `cosmwasm` folder.
+
+The smart contract can be built using `cargo build` or if you install Earthly (https://earthly.dev/) 
+you can use `earthly +build` and `earthly -P +build-optimized` to build the contract. 
 
