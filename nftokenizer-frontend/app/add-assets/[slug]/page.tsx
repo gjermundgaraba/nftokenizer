@@ -28,7 +28,7 @@ export default function AddAsset() {
   const [openForMint, setOpenForMint] = useState(false);
   const [icaAddress, setIcaAddress] = useState('');
 
-  const slotId = params.slug;
+  const slotId = params!.slug as string;
 
   const loadItAll = async (empowerAddress: string) => {
     getNftSlot(slotId).then((nftSlot) => {
