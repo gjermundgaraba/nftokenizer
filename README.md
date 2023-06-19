@@ -13,8 +13,8 @@ A video demo can be found here: https://www.youtube.com/watch?v=fow_uQqEak4
 ## What has been built:
 
 ### NFTokenizer contract
-You can find the contract code in the `cosmwasm` folder. It uses Neutron's SDK
-to create interchain accounts (https://docs.neutron.org/neutron/modules/interchain-txs/overview) 
+You can find the contract code in the `cosmwasm` folder (and the contract itself, as well as some more documentation under `cosmwasm/contracts/nftokenizer`. 
+It uses Neutron's SDK to create interchain accounts (https://docs.neutron.org/neutron/modules/interchain-txs/overview) 
 and implements the sudo callback from Neutron's SDK to allow the contract to 
 find the interchain account address.
 
